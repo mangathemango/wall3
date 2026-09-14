@@ -1,5 +1,7 @@
 use std::fmt::Display;
 
+use strum::EnumIter;
+
 use crate::control::actions::Action;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -23,7 +25,7 @@ impl Display for Express {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter)]
 pub enum Expression {
     Happy,     
     Curious,    
@@ -36,6 +38,12 @@ pub enum Expression {
     Blush,
     Bruh,
     Disappointed 
+}
+
+impl Expression {
+    pub fn all() {
+
+    }
 }
 
 impl Display for Expression {

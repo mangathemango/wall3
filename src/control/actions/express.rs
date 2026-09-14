@@ -2,7 +2,7 @@ use std::fmt::Display;
 
 use strum::EnumIter;
 
-use crate::control::actions::Action;
+use crate::{ROBOT, control::actions::Action};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Express {
@@ -16,7 +16,9 @@ impl Express {
 }
 
 impl Action for Express {
-
+    fn start(&mut self) {
+        ROBOT.stm32_controller().set_display_text(self.expression.to_string());
+    }
 }
 
 impl Display for Express {

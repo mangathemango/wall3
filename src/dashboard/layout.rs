@@ -9,7 +9,7 @@ use crate::dashboard::widgets::{
 };
 
 pub fn ui(f: &mut Frame) {
-    let [map_area, right_area] =
+    let [_map_area, right_area] =
         Layout::horizontal([Constraint::Length(45), Constraint::Fill(1)]).areas(f.area());
 
     let [motion_area, bottom_area] =

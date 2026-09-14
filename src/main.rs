@@ -16,22 +16,16 @@ mod dashboard;
 mod devices;
 mod math;
 mod robot;
-mod action_executor;
+mod tasks;
 
 use std::sync::LazyLock;
 
-use crate::control::states::odometry::spawn_odometry_thread;
-use crate::dashboard::spawn_dashboard_thread;
-use crate::devices::gyro::spawn_gyro_thread;
-use crate::devices::maixcam::spawn_maixcam_thread;
-use crate::devices::qr::spawn_qr_thread;
-use crate::devices::stm32::spawn_stm32_thread;
-use crate::action_executor::spawn_action_executor_thread;
-
 use robot::Robot;
 
+use crate::tasks::{action_executor::spawn_action_executor_thread, dashboard::spawn_dashboard_thread, gyro::spawn_gyro_thread, maixcam::spawn_maixcam_thread, odometry::spawn_odometry_thread, qr::spawn_qr_thread, stm32::spawn_stm32_thread};
+
 // The global ROBOT variable used to share data across different threads
-static ROBOT: LazyLock<Robot> = LazyLock::new(|| Robot::new());
+static ROBOT: LazyLock<Robot> = LazyLock::new(Robot::new);
 
 fn main() {
     // DEVICE THREADS

@@ -18,11 +18,12 @@ mod math;
 mod robot;
 mod tasks;
 
-use std::sync::LazyLock;
+use std::{sync::LazyLock, thread};
 
 use robot::Robot;
+use tokio::runtime::Runtime;
 
-use crate::tasks::{action_executor::spawn_action_executor_thread, dashboard::spawn_dashboard_thread, gyro::spawn_gyro_thread, maixcam::spawn_maixcam_thread, odometry::spawn_odometry_thread, qr::spawn_qr_thread, stm32::spawn_stm32_thread};
+use crate::{devices::llm::driver::LLMDriver, tasks::{action_executor::spawn_action_executor_thread, dashboard::spawn_dashboard_thread, gyro::spawn_gyro_thread, maixcam::spawn_maixcam_thread, odometry::spawn_odometry_thread, qr::spawn_qr_thread, stm32::spawn_stm32_thread}};
 
 // The global ROBOT variable used to share data across different threads
 static ROBOT: LazyLock<Robot> = LazyLock::new(Robot::new);
@@ -49,5 +50,27 @@ fn main() {
     spawn_action_executor_thread();
 
     // Thread to render TUI for debugging
-    spawn_dashboard_thread();
+    // spawn_dashboard_thread();
+
+    thread::spawn(|| {
+        let runtime = Runtime::new().unwrap();
+
+        runtime.block_on(async {
+            let mut llm_driver = LLMDriver::new();
+            loop {
+                let mut message = String::new();
+                println!("Type in a message: ");
+                std::io::stdin().read_line(&mut message).expect("not stdining it");
+                let response = llm_driver
+                    .send_message(&message)
+                    .await
+                    .unwrap_or("Something went wrong".into());
+                println!("Response from Wall3: {response}");
+                println!();
+            }
+        });
+    });
+    loop {
+
+    }
 }

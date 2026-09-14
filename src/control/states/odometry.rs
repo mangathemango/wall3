@@ -1,7 +1,6 @@
 use glam::Vec2;
 
 use crate::ROBOT;
-use crate::control::landmark::Landmark;
 use crate::math::{MecanumVelocities, Pose, Twist, utils::wrap_angle};
 use std::time::Duration;
 
@@ -74,9 +73,5 @@ impl OdometryState {
 
     pub fn set_current_pose(&mut self, pose: Pose) {
         self.current_pose = pose;
-    }
-
-    pub fn set_current_landmark(&mut self, landmark: Landmark) {
-        self.set_current_pose(landmark.pose());
     }
 }

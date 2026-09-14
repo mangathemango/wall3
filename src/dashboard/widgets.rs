@@ -2,7 +2,6 @@ pub mod compass;
 pub mod controller;
 pub mod gyro;
 pub mod maixcam;
-pub mod map;
 pub mod odometry;
 pub mod qr;
 pub mod stm32;

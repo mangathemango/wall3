@@ -5,7 +5,7 @@ use ratatui::{
 
 use crate::dashboard::widgets::{
     compass::draw_compass, controller::draw_controller, gyro::draw_gyro, maixcam::draw_maixcam,
-    map::draw_map, odometry::draw_odometry, qr::draw_qr, stm32::draw_stm32, system::draw_system,
+    odometry::draw_odometry, qr::draw_qr, stm32::draw_stm32, system::draw_system,
 };
 
 pub fn ui(f: &mut Frame) {
@@ -36,7 +36,6 @@ pub fn ui(f: &mut Frame) {
     let [maixcam_panel, stm32_panel] =
         Layout::horizontal([Constraint::Fill(1), Constraint::Fill(1)]).areas(bottom_devices);
 
-    draw_map(f, map_area);
     draw_system(f, system_panel);
 
     draw_odometry(f, odometry_panel);

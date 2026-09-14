@@ -17,13 +17,11 @@ use crate::{
     ROBOT,
     control::{
         actions::{
-            extend_arm::ArmExtendPreset,
             lift_arm::ArmLiftPreset,
             rotate_arm::ArmRotationPreset,
-            rotate_claw::ClawRotationPreset,
             stop::StopMovement,
         },
-        routines::utils::{beep, initialize},
+        routines::utils::beep,
     },
     dashboard::layout::ui, devices::maixcam::circle::MaixcamCircleColor,
 };
@@ -51,8 +49,7 @@ fn run() -> Result<(), io::Error> {
 
     loop {
         // exit key (optional)
-        if event::poll(Duration::from_millis(10))? {
-            if let Event::Key(key) = event::read()? {
+        if event::poll(Duration::from_millis(10))? && let Event::Key(key) = event::read()?{
                 match key.code {
                     KeyCode::Char('q') => {
                         break;
@@ -69,17 +66,8 @@ fn run() -> Result<(), io::Error> {
                         ROBOT.action_queue_mut().enqueue(beep());
                     }
 
-                    KeyCode::Char('r') => {
-                        ROBOT.action_queue_mut().abort();
-                        ROBOT.action_queue_mut().enqueue(initialize());
-                    }
                     KeyCode::Char('z') => {
                         ROBOT.stm32_controller().set_claw_servo(0);
-                    }
-                    KeyCode::Char('x') => {
-                        ROBOT
-                            .stm32_controller()
-                            .set_claw_servo(ClawRotationPreset::Open.to_angle());
                     }
                     KeyCode::Char('c') => {
                         ROBOT
@@ -90,21 +78,6 @@ fn run() -> Result<(), io::Error> {
                         ROBOT
                             .stm32_controller()
                             .set_yaw_servo(ArmRotationPreset::Calibration.to_angle());
-                    }
-                    KeyCode::Char('a') => {
-                        ROBOT.stm32_controller().set_horizontal_arm_position(
-                            ArmExtendPreset::Calibration.to_position(),
-                        );
-                    }
-                    KeyCode::Char('s') => {
-                        ROBOT
-                            .stm32_controller()
-                            .set_horizontal_arm_position(ArmExtendPreset::Forward.to_position());
-                    }
-                    KeyCode::Char('d') => {
-                        ROBOT
-                            .stm32_controller()
-                            .set_horizontal_arm_position(ArmExtendPreset::Back.to_position());
                     }
                     KeyCode::Char('f') => {
                         ROBOT
@@ -130,11 +103,11 @@ fn run() -> Result<(), io::Error> {
                 if key.code == KeyCode::Char('b') {
                     ROBOT.action_queue_mut().enqueue(beep());
                 }
-            }
+            
         }
 
         if last_tick.elapsed() >= tick_rate {
-            terminal.draw(|f| ui(f))?;
+            terminal.draw(ui)?;
             last_tick = Instant::now();
         }
         std::thread::sleep(Duration::from_millis(1));

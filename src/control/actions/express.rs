@@ -39,7 +39,8 @@ pub enum Expression {
     Dead,
     Blush,
     Bruh,
-    Disappointed 
+    Disappointed,
+    Excited
 }
 
 impl Expression {
@@ -62,6 +63,7 @@ impl Display for Expression {
             Expression::Blush =>        " -///- ",
             Expression::Bruh =>         "  -~-  ",
             Expression::Disappointed => "  =.=? ",
+            Expression::Excited =>      "  >v<  ",
         };
         write!(f, "{}", expression_str)
     }

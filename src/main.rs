@@ -18,7 +18,7 @@ mod math;
 mod robot;
 mod tasks;
 
-use std::{str::FromStr, sync::LazyLock, thread};
+use std::{str::FromStr, sync::LazyLock, thread, time::Duration};
 
 use robot::Robot;
 use tokio::runtime::Runtime;
@@ -56,7 +56,7 @@ fn main() {
         let runtime = Runtime::new().unwrap();
 
         runtime.block_on(async {
-            let mut llm_driver = LLMDriver::new();
+            let llm_driver = LLMDriver::new();
             loop {
                 let mut message = String::new();
                 println!("Type in a message: ");
@@ -65,16 +65,25 @@ fn main() {
                     .send_message(&message)
                     .await
                     .unwrap_or("Something went wrong".into());
-                let expression = Expression::from_str(&response).unwrap_or(Expression::Dead);
+
+                println!("Response from Wall3: {response}");
+                println!();
+
+                let expression_str = response
+                    .split(" ")
+                    .collect::<Vec<&str>>()
+                    .first()
+                    .unwrap_or(&"Dead")
+                    .to_string();
+                let expression = Expression::from_str(expression_str.as_str()).unwrap_or(Expression::Dead);
                 ROBOT.action_queue_mut().enqueue(
                     Express::new(expression)
                 );
-                println!("Response from Wall3: {response}");
-                println!();
+
             }
         });
     });
     loop {
-
+        std::thread::sleep(Duration::from_mins(10));
     }
 }

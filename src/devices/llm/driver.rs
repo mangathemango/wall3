@@ -66,6 +66,12 @@ impl LLMDriver {
                         Blush,
                         Bruh,
                         Disappointed.
+
+                    After the one single word, you can also add your own thoughts into the response in parenthesis
+                    
+                    Example of a good response:
+
+                    Happy (I'm very happy to be able to help!)
                     ",
                 },
                 Message { role: "user", content },

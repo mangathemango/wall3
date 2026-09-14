@@ -18,12 +18,12 @@ mod math;
 mod robot;
 mod tasks;
 
-use std::{sync::LazyLock, thread};
+use std::{str::FromStr, sync::LazyLock, thread};
 
 use robot::Robot;
 use tokio::runtime::Runtime;
 
-use crate::{devices::llm::driver::LLMDriver, tasks::{action_executor::spawn_action_executor_thread, dashboard::spawn_dashboard_thread, gyro::spawn_gyro_thread, maixcam::spawn_maixcam_thread, odometry::spawn_odometry_thread, qr::spawn_qr_thread, stm32::spawn_stm32_thread}};
+use crate::{control::actions::express::{Express, Expression}, devices::llm::driver::LLMDriver, tasks::{action_executor::spawn_action_executor_thread, dashboard::spawn_dashboard_thread, gyro::spawn_gyro_thread, maixcam::spawn_maixcam_thread, odometry::spawn_odometry_thread, qr::spawn_qr_thread, stm32::spawn_stm32_thread}};
 
 // The global ROBOT variable used to share data across different threads
 static ROBOT: LazyLock<Robot> = LazyLock::new(Robot::new);
@@ -65,6 +65,10 @@ fn main() {
                     .send_message(&message)
                     .await
                     .unwrap_or("Something went wrong".into());
+                let expression = Expression::from_str(&response).unwrap_or(Expression::Dead);
+                ROBOT.action_queue_mut().enqueue(
+                    Express::new(expression)
+                );
                 println!("Response from Wall3: {response}");
                 println!();
             }

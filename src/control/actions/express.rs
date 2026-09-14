@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use strum::EnumIter;
+use strum::{EnumIter, EnumString};
 
 use crate::{ROBOT, control::actions::Action};
 
@@ -27,7 +27,7 @@ impl Display for Express {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, EnumIter, EnumString)]
 pub enum Expression {
     Happy,     
     Curious,    

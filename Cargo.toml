@@ -1,0 +1,31 @@
+[package]
+name = "wall3"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# DASHBOARD
+ratatui = "0.30"    # TUI (Text User Interface) Rendering
+crossterm = "0.29"  # Terminal manipulation
+
+# UTILITIES
+sysinfo = "0.39.2"    # System info display on dashboard
+arc-swap = "1.9.1"  # Thread safe non-blocking reads
+dotenv = "0.15.0"   # .env loading
+glam = "0.32.1"     # This is literally just for me to steal its Vec2 struct because I'm too lazy to write my own
+
+# DEPENDENCIES FOR DEVICE DRIVERS
+# STM32 + Gyroscope via serial
+serialport = "4.9.0"
+
+# Maixcam via json TCP stream
+serde_json = "1.0.149"
+serde = { version = "1", features = ["derive"] }
+rand = "0.10.1"
+
+# Qr reader via camera/HID device (only supported on linux)
+[target.'cfg(target_os = "linux")'.dependencies]
+evdev = "0.13.2"
+rqrr = "0.10.1"
+image = "0.25.9"
+rscam = "0.5.5"

@@ -70,7 +70,7 @@ impl LLMDriver {
                         Disappointed.
 
                     After the one single word, you can also add your own thoughts into the response in parenthesis.
-                    You can also add 'beep' anywhere in the thought to actually beep in real life :D.
+                    You can also add a lowercase 'beep' anywhere in the thought to actually beep in real life :D.
 
                     Example of a good response:
 

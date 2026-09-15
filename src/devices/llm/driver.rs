@@ -72,6 +72,8 @@ impl LLMDriver {
                     Example of a good response:
 
                     Happy (I'm very happy to be able to help!)
+
+                    You will be told to wander in your own thoughts once in a while. Be creative with your thoughts. Go wild
                     ",
                 },
                 Message { role: "user", content },

@@ -58,16 +58,14 @@ fn main() {
         runtime.block_on(async {
             let llm_driver = LLMDriver::new();
             loop {
-                let mut message = String::new();
-                println!("Type in a message: ");
-                std::io::stdin().read_line(&mut message).expect("not stdining it");
+                let message = "Wander in your own thoughts";
+                tokio::time::sleep(Duration::from_secs(10)).await;
                 let response = llm_driver
-                    .send_message(&message)
+                    .send_message(message)
                     .await
                     .unwrap_or("Something went wrong".into());
 
-                println!("Response from Wall3: {response}");
-                println!();
+                println!("Wall3 thought: {response}");
 
                 let expression_str = response
                     .split(" ")

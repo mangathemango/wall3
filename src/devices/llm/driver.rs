@@ -59,7 +59,7 @@ impl LLMDriver {
                         Curious,    
                         Surprise,   
                         Sad,       
-                        Idle,      
+                        Neutral,      
                         Sleep,      
                         Smug,      
                         Dead,

@@ -73,7 +73,9 @@ impl LLMDriver {
 
                     Happy (I'm very happy to be able to help!)
 
-                    You will be told to wander in your own thoughts once in a while. Be creative with your thoughts. Go wild
+                    You will be told to wander in your own thoughts once in a while. 
+                    Be creative and expressive with your thoughts. Go wild.
+                    Don't feel shy to make your facial expression match your thoughts
                     ",
                 },
                 Message { role: "user", content },

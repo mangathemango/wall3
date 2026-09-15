@@ -24,7 +24,7 @@ use chrono::Local;
 use robot::Robot;
 use tokio::runtime::Runtime;
 
-use crate::{control::actions::express::{Express, Expression}, devices::llm::driver::LLMDriver, tasks::{action_executor::spawn_action_executor_thread, dashboard::spawn_dashboard_thread, gyro::spawn_gyro_thread, maixcam::spawn_maixcam_thread, odometry::spawn_odometry_thread, qr::spawn_qr_thread, stm32::spawn_stm32_thread}};
+use crate::{control::{actions::express::{Express, Expression}, routines::utils::beep}, devices::llm::driver::LLMDriver, tasks::{action_executor::spawn_action_executor_thread, dashboard::spawn_dashboard_thread, gyro::spawn_gyro_thread, maixcam::spawn_maixcam_thread, odometry::spawn_odometry_thread, qr::spawn_qr_thread, stm32::spawn_stm32_thread}};
 
 // The global ROBOT variable used to share data across different threads
 static ROBOT: LazyLock<Robot> = LazyLock::new(Robot::new);
@@ -68,6 +68,10 @@ fn main() {
                     .unwrap_or("Something went wrong".into());
 
                 println!("[{current_time}] Wall3 thought: {response}");
+
+                if response.to_lowercase().contains("beep") {
+                    ROBOT.action_queue_mut().enqueue(beep());
+                }
 
                 let expression_str = response
                     .split(" ")

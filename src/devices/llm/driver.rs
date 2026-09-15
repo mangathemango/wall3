@@ -85,7 +85,7 @@ impl LLMDriver {
                 },
                 Message { role: "user", content },
             ],
-            temperature: 0.7,
+            temperature: 1.5,
             max_tokens: 100,
         };
 

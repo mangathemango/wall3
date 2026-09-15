@@ -18,8 +18,9 @@ mod math;
 mod robot;
 mod tasks;
 
-use std::{str::FromStr, sync::LazyLock, thread, time::Duration};
+use std::{str::FromStr, sync::LazyLock, thread, time::{Duration, Instant}};
 
+use chrono::Local;
 use robot::Robot;
 use tokio::runtime::Runtime;
 
@@ -58,14 +59,15 @@ fn main() {
         runtime.block_on(async {
             let llm_driver = LLMDriver::new();
             loop {
-                let message = "Wander in your own thoughts";
+                let current_time = Local::now().to_string();  
+                let message = format!("[{current_time}] Wander in your own thoughts");
                 tokio::time::sleep(Duration::from_secs(10)).await;
                 let response = llm_driver
-                    .send_message(message)
+                    .send_message(message.as_str())
                     .await
                     .unwrap_or("Something went wrong".into());
 
-                println!("Wall3 thought: {response}");
+                println!("[{current_time}] Wall3 thought: {response}");
 
                 let expression_str = response
                     .split(" ")

@@ -25,6 +25,7 @@ rand = "0.10.1"
 strum = { version = "0.28", features = ["derive"] }
 reqwest = { version = "0.13.5", features = ["json"] }
 tokio = { version = "1.53.1", features = ["full"] }
+chrono = "0.4.45"
 
 # Qr reader via camera/HID device (only supported on linux)
 [target.'cfg(target_os = "linux")'.dependencies]
